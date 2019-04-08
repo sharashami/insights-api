@@ -25,7 +25,7 @@ class GoogleSearcher(WebSearcher):
         ValueError: If search_for is None or empty.
 
     Returns:
-        An empty dictionary or a dictionary sized up to limit
+        An empty list or a list sized up to limit
 
     """
     def search(self, search_for, limit=5):
@@ -44,16 +44,23 @@ class GoogleSearcher(WebSearcher):
 #one can add more searchers below
 
 class PageInsight:
+    
+    """ Returns the most relevant information related to searching_for in each link in pages_link and optionally extra info.
+    
+    Args:
+        pages_link (list): List of pages urls.
+        searching_for (string): The entry used to detect the key words and find the most relevant content.
 
-    def __init__(self, page_link):
-        self.page_link = page_link
+    Raises:
+        ValueError: If pages_link or searching_for is empty/None or invalid URLs.
+        ConnectionError: If no response.
+
+    Returns:
+        key_words : A list of strings representing the key words from searching_for.
+        insights: A list of dictionaries with keys: link_page, most_revelant and extra. 
+
+    """ 
+    def most_revelant_information(self,pages_link, searching_for):
+
+        return None, None
         
-    def most_revelant_information(self):
-        return None
-        
-    def extra_information(self):
-        return None
-
-
-if __name__ ==  "__main__":
-    GoogleSearcher().search('keystone - Circular reference found role inference')
