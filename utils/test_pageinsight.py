@@ -1,17 +1,17 @@
-from django.test import TestCase
+from unittest import TestCase
+from contextlib import contextmanager
 import requests
 
-from websearch.utils import PageInsight
+from simpletest import SimpleTest
+from pageinsight import PageInsight
 
-class PageInsightTestCase(TestCase):
-    
-    
-
+class PageInsightTestCase(SimpleTest):    
+   
     def test_invalid_url(self):
 
         try:
             with self.assertRaisesMessage(ValueError, "Please, provide valid URL(s)."):
-                PageInsight().most_revelant_information(pages_link=['http://www.google.com','fdfsgsd'], searching_for="keystone - Circular reference found role inference")
+                PageInsight().most_revelant_information(pages_link=['http://www.google.com','fdfsgsd'], search_for="keystone - Circular reference found role inference")
                    
         except requests.exceptions.ConnectionError as e:
             self.assertEqual(str(e),'Sorry, connection error. No response.')
@@ -20,10 +20,10 @@ class PageInsightTestCase(TestCase):
 
         try:
             with self.assertRaisesMessage(ValueError, "Please, provide the link page(s)."):
-                PageInsight().most_revelant_information(pages_link=None, searching_for="keystone - Circular reference found role inference")
+                PageInsight().most_revelant_information(pages_link=None, search_for="keystone - Circular reference found role inference")
             
             with self.assertRaisesMessage(ValueError, "Please, provide the link page(s)."):
-                PageInsight().most_revelant_information(pages_link=[], searching_for="keystone - Circular reference found role inference")
+                PageInsight().most_revelant_information(pages_link=[], search_for="keystone - Circular reference found role inference")
                             
         except requests.exceptions.ConnectionError as e:
             self.assertEqual(str(e),'Sorry, connection error. No response.')
@@ -34,11 +34,11 @@ class PageInsightTestCase(TestCase):
         try:
             with self.assertRaisesMessage(ValueError, "I can't query for nothing, sorry :("):
                 PageInsight().most_revelant_information(pages_link=["http://www.google.com"], #site that hardly ever is down
-                                        searching_for="")
+                                        search_for="")
                                         
             with self.assertRaisesMessage(ValueError, "I can't query for nothing, sorry :("):
                 PageInsight().most_revelant_information(pages_link=["http://www.google.com"], #site that hardly ever is down
-                                    searching_for=None)
+                                    search_for=None)
  
         except requests.exceptions.ConnectionError as e:
             self.assertEqual(str(e),'Sorry, connection error. No response.')
@@ -47,7 +47,7 @@ class PageInsightTestCase(TestCase):
         
         try:
             key_words, insights = PageInsight().most_revelant_information(pages_link=["https://bugs.launchpad.net/bugs/1803780"], 
-                               searching_for="keystone - Circular reference found role inference")
+                               search_for="keystone - Circular reference found role inference")
             
             self.assertIsNotNone(key_words)
             self.assertTrue(len(key_words))
@@ -61,3 +61,6 @@ class PageInsightTestCase(TestCase):
 
         except requests.exceptions.ConnectionError as e:
             self.assertEqual(str(e),'Sorry, connection error. No response.')
+
+if __name__ == "__main__":
+    unittest.main()

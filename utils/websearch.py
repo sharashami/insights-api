@@ -42,25 +42,3 @@ class GoogleSearcher(WebSearcher):
         return [link.attrs['href'] for i,link in enumerate(links) if i < limit ]
 
 #one can add more searchers below
-
-class PageInsight:
-    
-    """ Returns the most relevant information related to searching_for in each link in pages_link and optionally extra info.
-    
-    Args:
-        pages_link (list): List of pages urls.
-        searching_for (string): The entry used to detect the key words and find the most relevant content.
-
-    Raises:
-        ValueError: If pages_link or searching_for is empty/None or invalid URLs.
-        ConnectionError: If no response.
-
-    Returns:
-        key_words : A list of strings representing the key words from searching_for.
-        insights: A list of dictionaries with keys: link_page, most_revelant and extra. 
-
-    """ 
-    def most_revelant_information(self,pages_link, searching_for):
-
-        return None, None
-        
