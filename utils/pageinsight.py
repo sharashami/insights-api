@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+import asyncio
+import requests
 from requests_html import HTML, HTMLSession
 from requests.exceptions import ConnectionError
 
@@ -20,23 +22,26 @@ class PageInsight:
 
     """ 
     def most_revelant_information(self,pages_link, search_for):
-        '''
+        
         if search_for==None or (not search_for):
             raise ValueError("I can't query for nothing, sorry :(")
 
         session = HTMLSession()
-
-        for link in pages_link:      
-
+        results = []
+        for link in pages_link:
             try:
                 r = session.get(link)
-            except ConnectionError:
-                raise ConnectionError('Sorry, connection error. No response.')
-
-            
-
-            links = r.html.find(f'#search .srg .g div.r > a:nth-child(1)')
-            return [link.attrs['href'] for i,link in enumerate(links) if i < limit ]
-        '''
-        return None, None
+                results.append(r)
+            except requests.exceptions.ConnectionError:
+                results.append(link)
         
+        for r in results:
+            print(r.html.url)
+
+        return None, None
+
+if __name__ == "__main__":
+      PageInsight().most_revelant_information(pages_link=[
+            'https://ask.openstack.org/en/question/120505/trove-instance-hangs-in-build-status/',
+            'http://openstack-logself.google.purestorage.com/62/585162/3/check/PureFCDriver-tempest-dsvm-xenial-aio-multipath/3c4dda4/logs/screen-keystone.txt.gz?level=ERROR'],
+                                            search_for="keystone - Circular reference found role inference")

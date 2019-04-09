@@ -55,7 +55,7 @@ class PageInsightTestCase(SimpleTest):
             self.assertIsNotNone(insights)
             self.assertTrue(len(insights))
 
-            expected_keys = ['link', 'most_relevant', 'extra']
+            expected_keys = ['link', 'most_relevant', 'extra', 'status']
 
             for dicts in insights: self.assertDictEqual(expected_keys, dicts.keys())
 
